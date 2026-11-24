@@ -56,7 +56,7 @@ import static org.awaitility.Awaitility.await;
  * fetch behaviour and redelivery. The test deliberately uses a long nack
  * window because broker-driven cooperative rebalances are asynchronous.
  */
-@EmbeddedKafka(topics = { NackCooperativeRebalanceIntegrationTests.TOPIC_A,
+@EmbeddedKafka(partitions = 1, topics = { NackCooperativeRebalanceIntegrationTests.TOPIC_A,
         NackCooperativeRebalanceIntegrationTests.TOPIC_B })
 class NackCooperativeRebalanceIntegrationTests {
 
