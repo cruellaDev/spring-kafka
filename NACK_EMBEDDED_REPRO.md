@@ -32,9 +32,7 @@ The test asserts that C1's originally assigned partition was not revoked,
 that the new assignment occurred with at least two seconds of nack sleep left,
 and that both partitions progress after the nack wake.
 
-## Evidence standard
-
-## Verified broker-backed result
+## Verified broker-backed results
 
 The first integration test (`NackCooperativeRebalanceIntegrationTests`) passed
 its baseline/patch comparison in GitHub Actions run
@@ -44,12 +42,20 @@ its baseline/patch comparison in GitHub Actions run
   while the original nack sleep was still active
 - Patched: same test passed
 
-The original-partition-stall scenario
+The overlapping-nack original-partition-stall scenario
 (`CooperativeNackRebalanceTest.secondNackAfterCooperativeAdditionMustNotStrandOriginalPartition`)
-has also been staged on this experimental branch, but its **new public-fork
-baseline/patch comparison is not yet verified**. The reproducer project had
-previously exercised this separately; those private results are not presented
-as publicly reproducible evidence here.
+was also compared in GitHub Actions run `45322587529`:
+
+- Baseline: failed with `Original partition remains paused after nack wake;
+  evidence of state loss`
+- Patched: same scenario passed
+
+The comparison CI runs in a separate private validation repository, so its
+execution logs are **not externally accessible**. The test source is present
+on this public experiment branch and can be run independently. These are two
+individual successful comparisons, not a claim of repeated stability.
+
+## Evidence standard
 
 This is an *experimental*, broker-backed integration test. The two-consumer
 cooperative assignment and its timing are asynchronous. Results must be
@@ -65,6 +71,7 @@ classified as one of the following:
 An early test failure is not automatically evidence of a bug. CI logs and
 JUnit XML must be reviewed before citing the test in the upstream PR.
 
-A separate private CI workflow compares the candidate test on the patched
-branch with the same source after reverting the production fix. Until both
-results have been inspected, this branch is not presented as validated.
+A separate private CI workflow runs the tests on the patched branch and on
+that branch with the production fix reversed. Both individual comparisons
+produced the expected results. Repeatability and CI stability still need
+further assessment before adding the experimental tests to the upstream PR.
