@@ -34,6 +34,23 @@ and that both partitions progress after the nack wake.
 
 ## Evidence standard
 
+## Verified broker-backed result
+
+The first integration test (`NackCooperativeRebalanceIntegrationTests`) passed
+its baseline/patch comparison in GitHub Actions run
+[`45314624269`](https://github.com/cruellaDev/spring-kafka-nack-reproducer/actions/runs/45314624269):
+
+- Baseline: assertion failure because the newly assigned partition delivered
+  while the original nack sleep was still active
+- Patched: same test passed
+
+The original-partition-stall scenario
+(`CooperativeNackRebalanceTest.secondNackAfterCooperativeAdditionMustNotStrandOriginalPartition`)
+has also been staged on this experimental branch, but its **new public-fork
+baseline/patch comparison is not yet verified**. The reproducer project had
+previously exercised this separately; those private results are not presented
+as publicly reproducible evidence here.
+
 This is an *experimental*, broker-backed integration test. The two-consumer
 cooperative assignment and its timing are asynchronous. Results must be
 classified as one of the following:
